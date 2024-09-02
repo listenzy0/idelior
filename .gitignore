@@ -1,0 +1,11 @@
+# Ignore all hidden files (except .gitignore)
+.*
+!.gitignore
+
+# Node.js dependencies and lockfile (root only)
+/node_modules
+/package-lock.json
+/package.json
+
+# Ignore Terraform state files
+terraform.tfstate*
