@@ -2,7 +2,7 @@
 
 # Idelior
 
-This document covers the details of a **portfolio project** that demonstrates the setup and management of cloud infrastructure for a fictional e-commerce platform named Idelior.
+This document provides an overview of the **Idelior portfolio project**, which showcases the design and implementation of various components for a fictional e-commerce platform based in South Korea.
 
 ## Table of Contents
 
