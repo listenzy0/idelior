@@ -12,74 +12,116 @@ This document outlines the initial setup steps required to establish the foundat
 
 ### Components
 
-- **Domain (`idelior.com`, in GoDaddy):** Used for basic domain settings and linking with Google Workspace, Google Cloud, and AWS.
-- **Domain (`idelior.com`, in Google Workspace):** A domain linked with Google Workspace, enabling the use of `@idelior.com` email addresses.
-- **Account (`root@idelior.com`, at Domain):** The primary administrator account for managing all components.
-- **Organization (`idelior.com`, in Google Cloud):** The top-level container in Google Cloud that allows centralized management of resources.
-- **Project (`workspace`, at Organization):** An independent workspace in Google Cloud for logically separating and managing resources, where the IaC credentials for Google Workspace are stored.
-- **Service Account (`workspace`, on Project):** A programmatic access account for handling IaC operations for Google Workspace.
-- **Key (`for IaC`, on Service Account):** An authentication key linked to the service account for managing IaC processes.
-- **Organization (`Idelior`, in Amazon Web Services):** The top-level container in Amazon Web Services (AWS) for centralized management of multiple accounts, integrating policies and resources.
-- **Account root User (`root@idelior.com`, at Organization):** The primary root account for the AWS organization, created using the Google Workspace administrator account.
-- **IAM User (`root`, on Account root User):** A programmatic access-only account for handling IaC operations in AWS.
-- **Access Key (`for IaC`, on IAM User):** An authentication key linked to the IAM user for managing IaC processes.
+- **Domain (`idelior.com`, in GoDaddy):** Manages basic domain settings and integrates with Google Workspace, Google Cloud, and Amazon Web Services (AWS).
 
+- **Domain (`idelior.com`, in Google Workspace):** Enables the use of `@idelior.com` email addresses.
 
+- **Account (`root@idelior.com`, at Domain):** Primary account for managing all components and services.
+
+- **Organization (`idelior.com`, in Google Cloud):** Centralized container for managing resources in Google Cloud.
+
+- **Project (`workspace`, within Organization):** Independent workspace in Google Cloud for organizing and managing resources, storing Infrastructure as Code (IaC) credentials for Google Workspace.
+
+- **Service Account (`workspace`, within Project):** Programmatic account for managing Google Workspace through IaC.
+
+- **Key (`for IaC`, on Service Account):** Authentication key for IaC in Google Cloud.
+
+- **Organization (`Idelior`, in Amazon Web Services):** Central container for managing multiple AWS accounts.
+
+- **Account root User (`root@idelior.com`, within Organization):** Primary root account for AWS, created using the Google Workspace administrator account.
+
+- **IAM User (`root`, under Account root User):** Programmatic access-only account for IaC in AWS.
+
+- **Access Key (`for IaC`, on IAM User):** Authentication key for IaC in AWS.
+
+## Objectives
+  
+- **Security:** Using Google Workspace and AWS IAM enhances security by restricting access to critical systems, ensuring that only authorized users can interact with key resources.
+
+- **Automation:** IaC tools like Terraform automate resource management, minimizing manual errors and enabling faster deployments while maintaining consistency.
 
 ## Steps
 
-### 1. Domain Purchase
+### 1. Domain Purchase through GoDaddy
 
-**Domain Name Selection:**
-The domain `idelior.com` was selected to represent the project. This domain was chosen for its short, memorable nature and its ability to clearly convey the brand identity.
+**Domain Name:** `idelior.com`
 
-**Domain Purchase:**
-The domain was purchased through GoDaddy for two primary reasons:
-1. **Reliability:** GoDaddy is a trusted platform with a long history of providing domain registration services.
-2. **Cost:** Thanks to a promotion offered by GoDaddy, `idelior.com` was available at the most affordable price.
+The domain `idelior.com` was chosen because it's short, easy to remember, and effectively represents the brand identity.
 
-**Challenges:**
-Initially, the plan was to manage the domain via Terraform using GoDaddy's API. However, GoDaddy's API is only available to Enterprise plans or accounts managing more than 50 domains, which required a change in our original approach.
+Purchasing a domain is a crucial step in building cloud infrastructure, as it serves as the foundation for web hosting, DNS settings, and other services. It also enables cloud integration and ensures a stable operational environment.
 
+**Why GoDaddy?**
 
+GoDaddy offered the most affordable option, with features like free domain privacy protection and simple integration with other services.
 
+**Challenges Faced:**
 
-### 1. AWS Account Setup
+Initially, Terraform was planned for automating DNS management via GoDaddy's API.
+    
+However, GoDaddy’s API is only available to enterprise customers or those managing over 50 domains. Due to this limitation, DNS management is now handled manually through GoDaddy’s control panel, which still provides the necessary functionality, though less automated.
 
-- **Create an AWS Account:** Ensure you have an active AWS account. If not, [create one here](https://aws.amazon.com/).
-- **Configure IAM Users and Roles:** 
-  - Create IAM users with appropriate permissions.
-  - Set up roles for administration and deployment purposes.
-- **Billing Alerts:** Set up billing alerts to monitor and control costs.
+### 2. Sign up for Google Workspace
 
-### 2. VPC Configuration
+**Domain Verification:** `idelior.com` (Verify the domain through GoDaddy’s DNS settings)
 
-- **Create a Virtual Private Cloud (VPC):**
-  - Define the IP range (CIDR block) for your VPC (e.g., `10.0.0.0/16`).
-- **Subnets:**
-  - Create public and private subnets within your VPC.
-  - Assign appropriate IP ranges for each subnet.
-- **Internet Gateway and NAT Gateway:**
-  - Attach an Internet Gateway to the VPC for public subnet access.
-  - Set up a NAT Gateway for instances in the private subnet to access the internet securely.
+To establish a robust communication and collaboration system for the organization, a platform that supports not only professional email but also seamless collaboration tools was required.
 
-### 3. Security Groups and Network ACLs
+**Why Google Workspace?**
 
-- **Security Groups:**
-  - Create security groups to control inbound and outbound traffic for your resources.
-  - Example: Allow HTTP/HTTPS traffic for web servers, allow SSH access from specific IPs.
-- **Network ACLs:**
-  - Set up network ACLs to add an additional layer of security at the subnet level.
+The primary reason for choosing Google Workspace was Gmail. Gmail is widely used because it’s reliable, familiar, and provides strong spam filtering and security features.
 
-### 4. Initial EC2 Instance Launch
+Also, it seamlessly integrates with other Google services like Drive, Calendar, and Meet, making collaboration easier and boosting productivity.
 
-- **Choose an AMI:** Select a suitable Amazon Machine Image (AMI) for your EC2 instances.
-- **Instance Type:** Start with a general-purpose instance type (e.g., `t2.micro` for testing).
-- **Key Pair:** Generate or use an existing key pair for SSH access to the instance.
-- **Assign Security Groups:** Attach the previously created security group to the instance.
+**Administrator Account:** `root@idelior.com`
 
-### 5. S3 Bucket Setup (Optional)
+The `root@idelior.com` account is designated for IaC processes and automated tasks, and not for personal use. To enhance security and clearly separate roles, individual user accounts were created for team members instead of using shared accounts.
 
-- **Create S3 Buckets:** 
-  - Set up S3 buckets for storing static assets,
+### 3. Sign up Google Cloud
 
+**Organization:** `idelior.com` (automatically processed)
+
+Using Terraform to manage Google Workspace directory services as code provides several benefits:
+- It simplifies tracking changes.
+- It ensures consistent configurations.
+- It reduces human errors and improves operational efficiency through automation.
+
+To manage the infrastructure as code, authentication and authorization settings need to be configured. This involves generating programmatic credentials through Google Cloud by activating the necessary APIs and assigning relevant permissions.
+
+For more details, refer to the following links:
+- [Develop on Google Workspace](https://developers.google.com/workspace/guides/get-started)
+- [Google Workspace Provider](https://registry.terraform.io/providers/hashicorp/googleworkspace/latest/docs)
+
+> **Note:** During the Google Cloud sign-up process, the organization is automatically set up. There’s no need for further actions as project creation and credential configuration will be handled in the "6. Execute Script" step.
+
+### 4. Sign up Amazon Web Services
+
+**Email:** `root@idelior.com`
+
+To build a scalable and flexible cloud-native infrastructure, leveraging a reliable cloud service provider is essential. A cloud-native approach ensures that the platform can easily scale, adapt to changes, and integrate with various cloud-based tools and services.
+
+**Why AWS?**
+
+AWS is the global leader in cloud computing, trusted by businesses of all sizes for its proven reliability and continuous innovation. With services like EC2, S3, and RDS, AWS provides the advanced infrastructure necessary to support modern businesses like Idelior, ensuring access to the latest technologies.
+
+### 5. Create temporary IAM User and Access Key
+
+The reason for creating a temporary IAM user and access key is to ensure that the necessary permissions are available during the setup phase.
+
+This temporary solution will be replaced by Terraform for complete infrastructure management.
+
+### 6. Execute Script
+
+Before executing the script, ensure that the following tools are installed:
+- AWS CLI (`aws`)
+- Google Cloud CLI (`gcloud`)
+- `jq`
+- Terraform (`terraform`)
+
+The script is designed to streamline the configuration process by taking the temporary settings and completing the necessary configurations as outlined in the architecture diagram.
+
+```bash
+$ chmod +x init.sh
+$ bash init.sh
+```
+
+Once the required values are entered, the script configures the relevant components, ensuring that the infrastructure is set up correctly according to the defined architecture. As part of the process, sensitive information like credentials and access keys are stored in hidden files.
