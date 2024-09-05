@@ -91,9 +91,21 @@ For more details, refer to the following links:
 - [Develop on Google Workspace](https://developers.google.com/workspace/guides/get-started)
 - [Google Workspace Provider](https://registry.terraform.io/providers/hashicorp/googleworkspace/latest/docs)
 
-> **Note:** During the Google Cloud sign-up process, the organization is automatically set up. There’s no need for further actions as project creation and credential configuration will be handled in the "6. Execute Script" step.
+> **Note:** During the Google Cloud sign-up process, the organization is automatically set up. There’s no need for further actions as project creation and credential configuration will be handled in the "8. Execute Script" step.
 
-### 4. Sign up Amazon Web Services
+### 4. Assign Roles
+
+**Administrator Account:** `root@idelior.com`
+
+**Organization:** `idelior.com`
+
+**Roles:**
+- Organization Administrator (`roles/resourcemanager.organizationAdmin`)
+- Project Creator (`roles/resourcemanager.projectCreator`)
+
+To automatically configure components in Google Cloud, the necessary permissions must be granted to the `root@idelior.com` account.
+
+### 5. Sign up Amazon Web Services
 
 **Email:** `root@idelior.com`
 
@@ -103,19 +115,26 @@ To build a scalable and flexible cloud-native infrastructure, leveraging a relia
 
 AWS is the global leader in cloud computing, trusted by businesses of all sizes for its proven reliability and continuous innovation. With services like EC2, S3, and RDS, AWS provides the advanced infrastructure necessary to support modern businesses like Idelior, ensuring access to the latest technologies.
 
-### 5. Create temporary IAM User and Access Key
+### 6. Create temporary IAM User and Access Key
 
 The reason for creating a temporary IAM user and access key is to ensure that the necessary permissions are available during the setup phase.
 
 This temporary solution will be replaced by Terraform for complete infrastructure management.
 
-### 6. Execute Script
+### 7. Attach Policy
+
+**Policy:** AdministratorAccess (`arn:aws:iam::aws:policy/AdministratorAccess`)
+
+To automatically configure components in AWS, the necessary permissions must be granted to the temporary IAM user.
+
+### 8. Execute Script
 
 Before executing the script, ensure that the following tools are installed:
-- AWS CLI (`aws`)
-- Google Cloud CLI (`gcloud`)
-- `jq`
-- Terraform (`terraform`)
+- `gcloud` (Google Cloud CLI)
+- `aws` (AWS CLI)
+- `terraform` (Terraform)
+- `jq` (JSON processor)
+
 
 The script is designed to streamline the configuration process by taking the temporary settings and completing the necessary configurations as outlined in the architecture diagram.
 
@@ -125,3 +144,7 @@ $ bash init.sh
 ```
 
 Once the required values are entered, the script configures the relevant components, ensuring that the infrastructure is set up correctly according to the defined architecture. As part of the process, sensitive information like credentials and access keys are stored in hidden files.
+
+Once the script is executed, it will automatically perform the following tasks to configure the infrastructure:
+
+1. 
