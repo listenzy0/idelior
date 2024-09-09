@@ -99,11 +99,9 @@ For more details, refer to the following links:
 
 **Organization:** `idelior.com`
 
-**Roles:**
-- Organization Administrator (`roles/resourcemanager.organizationAdmin`)
-- Project Creator (`roles/resourcemanager.projectCreator`)
+**Role:** Organization Administrator (`roles/resourcemanager.organizationAdmin`)
 
-To automatically configure components in Google Cloud, the necessary permissions must be granted to the `root@idelior.com` account.
+To automatically configure components in Google Cloud, the **Organization Administrator** role must be granted to the `root@idelior.com` account.
 
 ### 5. Sign up Amazon Web Services
 
@@ -125,7 +123,7 @@ This temporary solution will be replaced by Terraform for complete infrastructur
 
 **Policy:** AdministratorAccess (`arn:aws:iam::aws:policy/AdministratorAccess`)
 
-To automatically configure components in AWS, the necessary permissions must be granted to the temporary IAM user.
+To automatically configure components in AWS, the **AdministratorAccess** policy must be attached to the temporary IAM user.
 
 ### 8. Execute Script
 
